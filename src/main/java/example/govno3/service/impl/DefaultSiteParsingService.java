@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static example.govno3.utils.ArticleUtils.getTitle;
+
 @Service(SiteParsingService.NAME)
 public class DefaultSiteParsingService implements SiteParsingService {
 
@@ -57,13 +59,6 @@ public class DefaultSiteParsingService implements SiteParsingService {
             }
         }
         return newsList;
-    }
-
-    private String getTitle(Element element) {
-        if (element != null) {
-            return StringUtils.cleanString(element.childNode(0).toString());
-        }
-        return "";
     }
 
     @Override

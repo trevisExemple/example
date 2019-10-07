@@ -4,7 +4,6 @@ import example.govno3.model.Article;
 import example.govno3.model.Articles;
 import example.govno3.service.SiteParsingService;
 import example.govno3.utils.AppProperty;
-import example.govno3.utils.StringUtils;
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,11 +18,13 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static example.govno3.utils.ArticleUtils.getTitle;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
@@ -59,7 +60,7 @@ public class Govno3ApplicationTests {
     public void testPageIsValidTest() {
         try (InputStream htmlSteam = this.getClass().getResourceAsStream("/test.html");
              InputStream jsonStream = this.getClass().getResourceAsStream("/articles.json")) {
-            String html = IOUtils.toString(htmlSteam);
+            String html = IOUtils.toString(htmlSteam, StandardCharsets.UTF_8);
             Assert.assertNotNull(html);
 
             Document document = Jsoup.parse(html);
@@ -98,13 +99,6 @@ public class Govno3ApplicationTests {
             articles.add(getTitle(element));
         }
         return articles;
-    }
-
-    private String getTitle(Element element) {
-        if (element != null) {
-            return StringUtils.cleanString(element.childNode(0).toString());
-        }
-        return "";
     }
 
 }
